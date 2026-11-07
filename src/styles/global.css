@@ -1,0 +1,64 @@
+@import "tailwindcss";
+/* Tailwind CSS v4 and daisyUI use custom at-rules. */
+/* stylelint-disable at-rule-no-unknown */
+@plugin "daisyui";
+@plugin "daisyui/theme" {
+  name: "masi";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+
+  --color-base-100: oklch(98% 0.015 145);
+  --color-base-200: oklch(94% 0.025 145);
+  --color-base-300: oklch(87% 0.04 145);
+  --color-base-content: oklch(25% 0.035 155);
+
+  --color-primary: oklch(62% 0.12 155);
+  --color-primary-content: oklch(98% 0.01 155);
+
+  --color-secondary: oklch(78% 0.11 145);
+  --color-secondary-content: oklch(25% 0.04 145);
+
+  --color-accent: oklch(82% 0.12 95);
+  --color-accent-content: oklch(25% 0.04 95);
+
+  --color-neutral: oklch(32% 0.035 155);
+  --color-neutral-content: oklch(97% 0.01 155);
+
+  --radius-selector: 0.2rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.35rem;
+
+  --border: 1px;
+  --depth: 0;
+  --noise: 1;
+
+  --color-info: oklch(65% 0.14 230);
+  --color-info-content: oklch(25% 0.05 230);
+
+  --color-success: oklch(62% 0.16 145);
+  --color-success-content: oklch(22% 0.05 145);
+
+  --color-warning: oklch(78% 0.16 85);
+  --color-warning-content: oklch(25% 0.05 85);
+
+  --color-error: oklch(62% 0.19 25);
+  --color-error-content: oklch(98% 0.01 25);
+
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

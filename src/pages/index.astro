@@ -1,16 +1,1454 @@
 ---
+import "../../src/styles/global.css";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<style lang="scss">
+  body {
+    font-family: "Metrophobic", sans-serif;
+    line-height: 1.4;
+    overflow-x: clip;
+
+    .tamil {
+      font-family: "Noto Sans Tamil", sans-serif;
+    }
+
+    .space-mono-regular {
+      font-family: "Space Mono", monospace;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    .space-mono-bold {
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    .space-mono-regular-italic {
+      font-family: "Space Mono", monospace;
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    .space-mono-bold-italic {
+      font-family: "Space Mono", monospace;
+      font-weight: 700;
+      font-style: italic;
+    }
+    .hero-background {
+      background-image:
+        linear-gradient(
+          90deg,
+          oklch(94% 0.025 145) 0%,
+          oklch(94% 0.025 145 / 0.96) 36%,
+          oklch(94% 0.025 145 / 0.72) 58%,
+          oklch(94% 0.025 145 / 0.18) 82%,
+          transparent 100%
+        ),
+        url("/images/mapshot.png");
+
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    @media (max-width: 767px) {
+      .hero-background {
+        background-image: none;
+        background-color: var(--color-base-200);
+        background-attachment: scroll;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-background {
+        background-attachment: scroll;
+      }
+    }
+
+    .document-intro {
+      align-self: start;
+    }
+
+    .scramble-text {
+      display: inline-block;
+    }
+
+    .noise-section {
+      background-image: none, var(--fx-noise);
+      background-size: auto, calc(var(--noise) * 33%);
+    }
+
+    .gallery-section {
+      background-color: var(--color-base-100);
+      background-image:
+        linear-gradient(
+          to bottom,
+          var(--color-base-200) 0%,
+          color-mix(in oklch, var(--color-base-200) 55%, var(--color-base-100))
+            48%,
+          var(--color-base-100) 100%
+        ),
+        var(--fx-noise);
+      background-size: auto, calc(var(--noise) * 33%);
+    }
+
+    .gallery-reveal {
+      --gallery-progress: 0;
+      opacity: var(--gallery-progress);
+      transform: translateX(
+        calc(var(--gallery-offset) * (1 - var(--gallery-progress)))
+      );
+      will-change: opacity, transform;
+    }
+
+    .gallery-from-left {
+      --gallery-offset: -4rem;
+    }
+
+    .gallery-from-right {
+      --gallery-offset: 4rem;
+    }
+
+    .service-card-scroll {
+      --service-progress: 0;
+      --service-rotation: 0deg;
+      opacity: var(--service-progress);
+      transform: perspective(900px) rotateY(var(--service-rotation));
+      transform-style: preserve-3d;
+      will-change: opacity, transform;
+    }
+
+    @media (min-width: 1024px) {
+      .document-intro {
+        position: sticky;
+        top: 7rem;
+        transform: none;
+      }
+    }
+
+    .review-window {
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .review-track {
+      display: flex;
+      width: max-content;
+      animation: review-scroll 28s linear infinite;
+
+      &:hover {
+        animation-play-state: paused;
+      }
+    }
+
+    .review-group {
+      display: flex;
+      gap: 1rem;
+      padding-right: 1rem;
+    }
+
+    @keyframes review-scroll {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .review-track {
+        animation: none;
+      }
+
+      .gallery-reveal {
+        --gallery-progress: 1;
+        will-change: auto;
+      }
+
+      .service-card-scroll {
+        --service-progress: 1;
+        --service-rotation: 0deg;
+        will-change: auto;
+      }
+    }
+  }
+</style>
+
+<html lang="en" data-theme="masi">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Metrophobic&family=Noto+Sans+Tamil:wght@100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Masi Online Service Centre</title>
+  </head>
+  <body>
+    <header
+      class="sticky top-0 z-50 border-b border-base-300/70 bg-base-100/30 backdrop-blur-md"
+    >
+      <div class="navbar mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="navbar-start shrink-0">
+          <a href="/" class="text-lg font-bold text-primary">
+            Masi Online Service Centre
+          </a>
+        </div>
+
+        <nav class="navbar-center hidden min-w-0 flex-1 justify-center lg:flex">
+          <ul
+            class="menu menu-horizontal flex-nowrap gap-0 whitespace-nowrap px-1 text-sm font-medium"
+          >
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#products">Documents</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#reviews">Reviews</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+
+        <div class="navbar-end shrink-0 gap-2">
+          <a href="tel:+919884081600" class="btn btn-primary btn-sm sm:btn-md">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-4"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"
+              ></path>
+            </svg>
+            <span class="hidden sm:inline">Call Now</span>
+          </a>
+
+          <details class="dropdown dropdown-end lg:hidden">
+            <summary
+              class="btn btn-square btn-ghost"
+              aria-label="Open navigation menu"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="size-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </summary>
+
+            <ul
+              class="dropdown-content menu z-10 mt-3 w-52 border border-base-300 bg-base-100 p-2 shadow-none"
+            >
+              <li><a href="#home">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#services">Services</a></li>
+              <li><a href="#products">Document Services</a></li>
+              <li><a href="#gallery">Gallery</a></li>
+              <li><a href="#reviews">Reviews</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </details>
+        </div>
+      </div>
+    </header>
+
+    <section id="home" class="hero-background relative">
+      <a
+        href="#contact"
+        class="absolute inset-y-0 right-0 z-10 hidden w-[42%] cursor-pointer lg:block"
+        aria-label="Go to our contact and location section"></a>
+      <a
+        href="https://www.google.com/maps"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="absolute bottom-4 right-4 z-20 hidden border border-base-300/70 bg-base-100/75 px-3 py-2 text-xs text-base-content/70 backdrop-blur-sm transition-colors hover:bg-base-100 lg:block"
+        aria-label="View Google Maps attribution"
+      >
+        Map imagery © Google Maps (2026)
+      </a>
+      <div
+        class="hero !place-items-start mx-auto min-h-[520px] max-w-7xl px-4 sm:px-6 lg:px-8"
+      >
+        <div
+          class="hero-content !mx-0 !justify-start !text-left w-full max-w-3xl items-start py-20 sm:py-28 lg:py-36"
+        >
+          <div class="max-w-2xl">
+            <p
+              class="mb-4 text-md font-bold uppercase tracking-[0.2em] text-neutral"
+            >
+              Fast and reliable digital services
+            </p>
+
+            <h1
+              class="flex flex-col items-center gap-0 text-center font-black leading-tight text-primary text-2xl sm:text-3xl lg:flex-row lg:items-baseline lg:text-left lg:text-4xl"
+              aria-label="E-Sevai Mayam - Fast, reliable digital services"
+            >
+              <span class="scramble-text" data-scramble="E-SEVAI MAYAM"
+              ></span><span
+                class="tamil mt-2 text-xl font-normal sm:text-2xl lg:ml-2 lg:mt-0 lg:text-3xl"
+                data-scramble="(இ - சேவை மையம்)"
+                data-scramble-pool="அஆஇஈஉஊஎஏஐஒஓஔகஙசஜஞடணதநபமயரலவழளறன"></span>
+            </h1>
+
+            <p class="mt-6 max-w-xl text-lg leading-8 text-base-content/70">
+              Masi Online Service Centre helps you with complete government
+              certificates, document services, bill payments, money transfers,
+              passport services, Pentioner life certificate, other online
+              applications, etc...
+            </p>
+
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a href="#services" class="btn btn-primary"> View Services </a>
+
+              <a href="#contact" class="btn btn-outline"> Find Our Shop </a>
+            </div>
+
+            <div
+              class="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm font-medium text-base-content/70"
+            >
+              <span>✓ Quick assistance</span>
+              <span>✓ Guidance and support</span>
+              <span>✓ Nominal Fees</span>
+              <span>✓ Reliable Services</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="about" class="border-t border-base-300 bg-base-100">
+      <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+        <div class="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-20">
+          <div>
+            <p
+              class="mb-4 text-sm font-bold uppercase tracking-[0.2em] text-primary"
+            >
+              About our centre
+            </p>
+
+            <h2
+              class="max-w-xl text-3xl font-black leading-tight text-base-content sm:text-4xl"
+            >
+              Providing important everyday services.
+            </h2>
+
+            <p class="mt-6 max-w-xl text-lg leading-8 text-base-content/70">
+              Masi Online Service Centre helps individuals, families, students,
+              and local businesses complete digital applications and
+              document-related tasks.
+            </p>
+
+            <p class="mt-4 max-w-xl leading-7 text-base-content/60">
+              We focus on guidance, accurate information, and dependable service
+              from start to finish.
+            </p>
+
+            <p class="mt-4 max-w-xl leading-7 text-base-content/80">
+              The service centre is officially registered with the Government of
+              Tamil Nadu as an E-Sevai Mayam.
+            </p>
+          </div>
+
+          <div class="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+            <article class="border border-base-300 bg-base-100 p-5">
+              <div class="flex items-start gap-4">
+                <span class="text-2xl text-primary" aria-hidden="true">✓</span>
+                <div>
+                  <h3 class="font-bold">Experienced assistance</h3>
+                  <p class="mt-2 text-sm leading-6 text-base-content/60">
+                    Practical support for common government and online services.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <article class="border border-base-300 bg-base-100 p-5">
+              <div class="flex items-start gap-4">
+                <span class="text-2xl text-primary" aria-hidden="true">◷</span>
+                <div>
+                  <h3 class="font-bold">Quick service</h3>
+                  <p class="mt-2 text-sm leading-6 text-base-content/60">
+                    We respect your time and keep the process simple.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <article class="border border-base-300 bg-base-100 p-5">
+              <div class="flex items-start gap-4">
+                <span class="text-2xl text-primary" aria-hidden="true">◎</span>
+                <div>
+                  <h3 class="font-bold">Local and reliable</h3>
+                  <p class="mt-2 text-sm leading-6 text-base-content/60">
+                    Convenient service from a centre close to your community.
+                  </p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section
+      id="gallery-before-services"
+      class="hidden overflow-x-hidden border-t border-base-300 bg-base-200"
+    >
+      <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+        <div class="max-w-2xl">
+          <p
+            class="mb-4 text-sm font-bold uppercase tracking-[0.2em] text-primary"
+          >
+            Inside the centre
+          </p>
+          <h2 class="text-3xl font-black leading-tight sm:text-4xl">
+            A closer look at our everyday work.
+          </h2>
+          <p class="mt-5 text-lg leading-8 text-base-content/70">
+            From our service counter to the equipment we use, everything is set
+            up to make your visit simple and comfortable.
+          </p>
+        </div>
+
+        <div class="mt-14 space-y-20 lg:space-y-28">
+          <article
+            class="grid min-w-0 items-center gap-8 lg:grid-cols-2 lg:gap-16"
+          >
+            <div class="gallery-reveal gallery-from-left">
+              <p
+                class="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-primary"
+              >
+                Our service desk
+              </p>
+              <h3 class="text-2xl font-black sm:text-3xl">
+                Friendly help starts at the counter.
+              </h3>
+              <p class="mt-4 max-w-lg leading-7 text-base-content/65">
+                Bring your documents and questions. We’ll guide you through the
+                right process and help you complete each step with confidence.
+              </p>
+            </div>
+            <figure
+              class="gallery-reveal gallery-from-right m-0 min-w-0 w-full overflow-hidden"
+            >
+              <img
+                src="https://placehold.co/900x600/e5f1e8/24543a?text=Service+Counter"
+                alt="Placeholder for a photo of the Masi Online Service Centre counter"
+                class="block aspect-[3/2] h-auto max-w-full w-full border border-base-300 object-cover"
+                loading="lazy"
+              />
+            </figure>
+          </article>
+
+          <article
+            class="grid min-w-0 items-center gap-8 lg:grid-cols-2 lg:gap-16"
+          >
+            <div class="gallery-reveal gallery-from-right lg:order-2">
+              <p
+                class="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-primary"
+              >
+                Reliable equipment
+              </p>
+              <h3 class="text-2xl font-black sm:text-3xl">
+                Clear prints, scans, and copies.
+              </h3>
+              <p class="mt-4 max-w-lg leading-7 text-base-content/65">
+                Our printer and scanner setup helps us handle applications,
+                certificates, photocopies, and forms neatly and efficiently.
+              </p>
+            </div>
+            <figure
+              class="gallery-reveal gallery-from-left m-0 min-w-0 w-full overflow-hidden lg:order-1"
+            >
+              <img
+                src="https://placehold.co/900x600/dfeee4/24543a?text=Printer+and+Scanner"
+                alt="Placeholder for a photo of the shop printer and scanner"
+                class="block aspect-[3/2] h-auto max-w-full w-full border border-base-300 object-cover"
+                loading="lazy"
+              />
+            </figure>
+          </article>
+
+          <article
+            class="grid min-w-0 items-center gap-8 lg:grid-cols-2 lg:gap-16"
+          >
+            <div class="gallery-reveal gallery-from-left">
+              <p
+                class="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-primary"
+              >
+                Ready for documents
+              </p>
+              <h3 class="text-2xl font-black sm:text-3xl">
+                Finish your paperwork in one visit.
+              </h3>
+              <p class="mt-4 max-w-lg leading-7 text-base-content/65">
+                With photo, lamination, binding, and stationery support in one
+                place, your documents can be prepared from start to finish.
+              </p>
+            </div>
+            <figure
+              class="gallery-reveal gallery-from-right m-0 min-w-0 w-full overflow-hidden"
+            >
+              <img
+                src="https://placehold.co/900x600/e9f4ec/24543a?text=Document+Finishing"
+                alt="Placeholder for a photo of document finishing equipment"
+                class="block aspect-[3/2] h-auto max-w-full w-full border border-base-300 object-cover"
+                loading="lazy"
+              />
+            </figure>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section
+      id="gallery-old"
+      class="hidden overflow-x-hidden border-t border-base-300 bg-base-200"
+    >
+      <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+        <div class="max-w-2xl">
+          <p
+            class="mb-4 text-sm font-bold uppercase tracking-[0.2em] text-primary"
+          >
+            Inside the centre
+          </p>
+          <h2 class="text-3xl font-black leading-tight sm:text-4xl">
+            A closer look at our everyday work.
+          </h2>
+          <p class="mt-5 text-lg leading-8 text-base-content/70">
+            From our service counter to the equipment we use, everything is set
+            up to make your visit simple and comfortable.
+          </p>
+        </div>
+
+        <div class="mt-14 space-y-20 lg:space-y-28">
+          <article
+            class="grid min-w-0 items-center gap-8 lg:grid-cols-2 lg:gap-16"
+          >
+            <div class="gallery-reveal gallery-from-left">
+              <p
+                class="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-primary"
+              >
+                Our service desk
+              </p>
+              <h3 class="text-2xl font-black sm:text-3xl">
+                Friendly help starts at the counter.
+              </h3>
+              <p class="mt-4 max-w-lg leading-7 text-base-content/65">
+                Bring your documents and questions. We’ll guide you through the
+                right process and help you complete each step with confidence.
+              </p>
+            </div>
+            <figure
+              class="gallery-reveal gallery-from-right m-0 min-w-0 w-full overflow-hidden"
+            >
+              <img
+                src="https://placehold.co/900x600/e5f1e8/24543a?text=Service+Counter"
+                alt="Placeholder for a photo of the Masi Online Service Centre counter"
+                class="block aspect-[3/2] h-auto max-w-full w-full border border-base-300 object-cover"
+                loading="lazy"
+              />
+            </figure>
+          </article>
+
+          <article
+            class="grid min-w-0 items-center gap-8 lg:grid-cols-2 lg:gap-16"
+          >
+            <div class="gallery-reveal gallery-from-right lg:order-2">
+              <p
+                class="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-primary"
+              >
+                Reliable equipment
+              </p>
+              <h3 class="text-2xl font-black sm:text-3xl">
+                Clear prints, scans, and copies.
+              </h3>
+              <p class="mt-4 max-w-lg leading-7 text-base-content/65">
+                Our printer and scanner setup helps us handle applications,
+                certificates, photocopies, and forms neatly and efficiently.
+              </p>
+            </div>
+            <figure
+              class="gallery-reveal gallery-from-left m-0 min-w-0 w-full overflow-hidden lg:order-1"
+            >
+              <img
+                src="https://placehold.co/900x600/dfeee4/24543a?text=Printer+and+Scanner"
+                alt="Placeholder for a photo of the shop printer and scanner"
+                class="block aspect-[3/2] h-auto max-w-full w-full border border-base-300 object-cover"
+                loading="lazy"
+              />
+            </figure>
+          </article>
+
+          <article
+            class="grid min-w-0 items-center gap-8 lg:grid-cols-2 lg:gap-16"
+          >
+            <div class="gallery-reveal gallery-from-left">
+              <p
+                class="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-primary"
+              >
+                Ready for documents
+              </p>
+              <h3 class="text-2xl font-black sm:text-3xl">
+                Finish your paperwork in one visit.
+              </h3>
+              <p class="mt-4 max-w-lg leading-7 text-base-content/65">
+                With photo, lamination, binding, and stationery support in one
+                place, your documents can be prepared from start to finish.
+              </p>
+            </div>
+            <figure
+              class="gallery-reveal gallery-from-right m-0 min-w-0 w-full overflow-hidden"
+            >
+              <img
+                src="https://placehold.co/900x600/e9f4ec/24543a?text=Document+Finishing"
+                alt="Placeholder for a photo of document finishing equipment"
+                class="block aspect-[3/2] h-auto max-w-full w-full border border-base-300 object-cover"
+                loading="lazy"
+              />
+            </figure>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section
+      id="services"
+      class="noise-section border-t border-base-300 bg-base-200"
+    >
+      <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+        <div class="max-w-2xl">
+          <p
+            class="mb-4 text-sm font-bold uppercase tracking-[0.2em] text-primary"
+          >
+            Our services
+          </p>
+
+          <h2 class="text-3xl font-black leading-tight sm:text-4xl">
+            Digital services under one roof.
+          </h2>
+
+          <p class="mt-5 text-lg leading-8 text-base-content/70">
+            Get support with essential online applications, government services,
+            payments, and document work.
+          </p>
+        </div>
+
+        <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <article
+            class="service-card-scroll border border-base-300 bg-base-100 p-6"
+            data-flip-direction="left"
+          >
+            <span class="text-3xl text-primary" aria-hidden="true">◈</span>
+            <h3 class="mt-5 text-lg font-bold">Certificates</h3>
+            <p class="mt-3 text-sm leading-6 text-base-content/60">
+              Services related to Income, Community, Nativity, Legal heir, OBC,
+              Residence, and other certificates.
+            </p>
+          </article>
+
+          <article
+            class="service-card-scroll border border-base-300 bg-base-100 p-6"
+            data-flip-direction="right"
+          >
+            <span class="text-3xl text-primary" aria-hidden="true">◎</span>
+            <h3 class="mt-5 text-lg font-bold">EC, Patta & Chitta</h3>
+            <p class="mt-3 text-sm leading-6 text-base-content/60">
+              Document certified copy, Patta name transfers and other supports.
+            </p>
+          </article>
+
+          <article
+            class="service-card-scroll border border-base-300 bg-base-100 p-6"
+            data-flip-direction="left"
+          >
+            <span class="text-3xl text-primary" aria-hidden="true">✈</span>
+            <h3 class="mt-5 text-lg font-bold">Passport Applications</h3>
+            <p class="mt-3 text-sm leading-6 text-base-content/60">
+              New applications, renewals and appointment guidance.
+            </p>
+          </article>
+
+          <article
+            class="service-card-scroll border border-base-300 bg-base-100 p-6"
+            data-flip-direction="right"
+          >
+            <span class="text-3xl text-primary" aria-hidden="true">▤</span>
+            <h3 class="mt-5 text-lg font-bold">PAN Card Services</h3>
+            <p class="mt-3 text-sm leading-6 text-base-content/60">
+              New PAN applications, corrections, reprints, and e-PAN downloads.
+            </p>
+          </article>
+
+          <article
+            class="service-card-scroll border border-base-300 bg-base-100 p-6"
+            data-flip-direction="left"
+          >
+            <span class="text-3xl text-primary" aria-hidden="true">▣</span>
+            <h3 class="mt-5 text-lg font-bold">Ration Card Services</h3>
+            <p class="mt-3 text-sm leading-6 text-base-content/60">
+              New application, change of address, name deletion and addition,
+              Duplicate card print.
+            </p>
+          </article>
+
+          <article
+            class="service-card-scroll border border-base-300 bg-base-100 p-6"
+            data-flip-direction="right"
+          >
+            <span class="text-3xl text-primary" aria-hidden="true">◉</span>
+            <h3 class="mt-5 text-lg font-bold">Voter ID Services</h3>
+            <p class="mt-3 text-sm leading-6 text-base-content/60">
+              New application, corrections, digital copy downloads.
+            </p>
+          </article>
+
+          <article
+            class="service-card-scroll border border-base-300 bg-base-100 p-6"
+            data-flip-direction="left"
+          >
+            <span class="text-3xl text-primary" aria-hidden="true">▥</span>
+            <h3 class="mt-5 text-lg font-bold">Pensioner Life Certificate</h3>
+            <p class="mt-3 text-sm leading-6 text-base-content/60">
+              Life certificate and pay slip download.
+            </p>
+          </article>
+
+          <article
+            class="service-card-scroll border border-base-300 bg-base-100 p-6"
+            data-flip-direction="right"
+          >
+            <span class="text-3xl text-primary" aria-hidden="true">▦</span>
+            <h3 class="mt-5 text-lg font-bold">EPFO Services</h3>
+            <p class="mt-3 text-sm leading-6 text-base-content/60">
+              PF Withdrawal, PF account transfers, Nominee updation, and other
+              EPFO services.
+            </p>
+          </article>
+
+          <article
+            class="service-card-scroll border border-base-300 bg-base-100 p-6"
+            data-flip-direction="left"
+          >
+            <span class="text-3xl text-primary" aria-hidden="true">▧</span>
+            <h3 class="mt-5 text-lg font-bold">Online Services</h3>
+            <p class="mt-3 text-sm leading-6 text-base-content/60">
+              TNPSC, RRB, TRB, SSC, JEE, NEET, Government College Applications,
+              Scholarship Applications, and other online applications.
+            </p>
+          </article>
+        </div>
+      </div>
+
+      <section id="products" class="border-t border-base-300 bg-base-100">
+        <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+          <div class="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+            <div class="document-intro">
+              <p
+                class="mb-4 text-sm font-bold uppercase tracking-[0.2em] text-primary"
+              >
+                Document services
+              </p>
+
+              <h2 class="text-3xl font-black leading-tight sm:text-4xl">
+                More than online services.
+              </h2>
+
+              <p class="mt-5 text-lg leading-8 text-base-content/70">
+                Get your documents printed, prepared, protected, and ready to
+                use.
+              </p>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2">
+              <article class="border border-base-300 bg-base-100 p-5">
+                <h3 class="font-bold">Print-outs & Xerox</h3>
+                <p class="text-sm leading-6 text-error/80">
+                  (Discounted Price for Student Study Materials)
+                </p>
+                <p class="mt-2 text-sm leading-6 text-base-content/60">
+                  Clear black-and-white print-outs and xerox upto A3 size,
+                  colored xerox and print-out upto A4 size.
+                </p>
+              </article>
+
+              <article class="border border-base-300 bg-base-100 p-5">
+                <h3 class="font-bold">Lamination</h3>
+                <p class="mt-2 text-sm leading-6 text-base-content/60">
+                  Protect certificates, cards, and important documents.
+                </p>
+              </article>
+
+              <article class="border border-base-300 bg-base-100 p-5">
+                <h3 class="font-bold">Spiral Binding</h3>
+                <p class="mt-2 text-sm leading-6 text-base-content/60">
+                  Neat and durable binding for projects, notes, and reports.
+                </p>
+              </article>
+
+              <article class="border border-base-300 bg-base-100 p-5">
+                <h3 class="font-bold">Office Stationery</h3>
+                <p class="mt-2 text-sm leading-6 text-base-content/60">
+                  Pens, files, paper, envelopes, and everyday office supplies.
+                </p>
+              </article>
+
+              <article class="border border-base-300 bg-base-100 p-5">
+                <h3 class="font-bold">Job Typing (Tamil and English)</h3>
+                <p class="mt-2 text-sm leading-6 text-base-content/60">
+                  Typing services for documents, letters, and forms in Tamil and
+                  English (we will need sufficient time to finish).
+                </p>
+              </article>
+
+              <article class="border border-base-300 bg-base-100 p-5">
+                <h3 class="font-bold">Scanning</h3>
+                <p class="mt-2 text-sm leading-6 text-base-content/60">
+                  High-quality scanning for documents, photos, and images.
+                </p>
+              </article>
+
+              <article class="border border-base-300 bg-base-100 p-5">
+                <h3 class="font-bold">Payment related Services</h3>
+                <p class="mt-2 text-sm leading-6 text-base-content/60">
+                  Money transfers, bill payments, exam fees payments, vehicle
+                  fine payments.
+                </p>
+              </article>
+
+              <article class="border border-base-300 bg-base-100 p-5">
+                <h3 class="font-bold">Aadhar based Cash Withdrawal</h3>
+                <p class="mt-2 text-sm leading-6 text-base-content/60">
+                  Withdraw cash from your bank account using your Aadhar card
+                  and registered mobile number. All banks are supported.
+                </p>
+              </article>
+            </div>
+          </div>
+        </div>
+        <section
+          id="gallery"
+          class="gallery-section overflow-x-hidden border-t border-base-300"
+        >
+          <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+            <div class="max-w-2xl">
+              <p
+                class="mb-4 text-sm font-bold uppercase tracking-[0.2em] text-primary"
+              >
+                Inside the centre
+              </p>
+              <h2 class="text-3xl font-black leading-tight sm:text-4xl">
+                A closer look at our everyday work.
+              </h2>
+              <p class="mt-5 text-lg leading-8 text-base-content/70">
+                From our service counter to the equipment we use, everything is
+                set up to make your visit simple and comfortable.
+              </p>
+            </div>
+
+            <div class="mt-14 space-y-20 lg:space-y-28">
+              <article
+                class="grid min-w-0 items-center gap-8 lg:grid-cols-2 lg:gap-16"
+              >
+                <div class="gallery-reveal gallery-from-left">
+                  <p
+                    class="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-primary"
+                  >
+                    Our service desk
+                  </p>
+                  <h3 class="text-2xl font-black sm:text-3xl">
+                    Friendly help starts at the counter.
+                  </h3>
+                  <p class="mt-4 max-w-lg leading-7 text-base-content/65">
+                    Bring your documents and questions. We’ll guide you through
+                    the right process and help you complete each step with
+                    confidence.
+                  </p>
+                </div>
+                <figure
+                  class="gallery-reveal gallery-from-right m-0 min-w-0 w-full overflow-hidden"
+                >
+                  <img
+                    src="https://placehold.co/900x600/e5f1e8/24543a?text=Service+Counter"
+                    alt="Placeholder for a photo of the Masi Online Service Centre counter"
+                    class="block aspect-[3/2] h-auto max-w-full w-full border border-base-300 object-cover"
+                    loading="lazy"
+                  />
+                </figure>
+              </article>
+
+              <article
+                class="grid min-w-0 items-center gap-8 lg:grid-cols-2 lg:gap-16"
+              >
+                <div class="gallery-reveal gallery-from-right lg:order-2">
+                  <p
+                    class="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-primary"
+                  >
+                    Reliable equipment
+                  </p>
+                  <h3 class="text-2xl font-black sm:text-3xl">
+                    Clear prints, scans, and copies.
+                  </h3>
+                  <p class="mt-4 max-w-lg leading-7 text-base-content/65">
+                    Our printer and scanner setup helps us handle applications,
+                    certificates, photocopies, and forms neatly and efficiently.
+                  </p>
+                </div>
+                <figure
+                  class="gallery-reveal gallery-from-left m-0 min-w-0 w-full overflow-hidden lg:order-1"
+                >
+                  <img
+                    src="https://placehold.co/900x600/dfeee4/24543a?text=Printer+and+Scanner"
+                    alt="Placeholder for a photo of the shop printer and scanner"
+                    class="block aspect-[3/2] h-auto max-w-full w-full border border-base-300 object-cover"
+                    loading="lazy"
+                  />
+                </figure>
+              </article>
+
+              <article
+                class="grid min-w-0 items-center gap-8 lg:grid-cols-2 lg:gap-16"
+              >
+                <div class="gallery-reveal gallery-from-left">
+                  <p
+                    class="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-primary"
+                  >
+                    Ready for documents
+                  </p>
+                  <h3 class="text-2xl font-black sm:text-3xl">
+                    Finish your paperwork in one visit.
+                  </h3>
+                  <p class="mt-4 max-w-lg leading-7 text-base-content/65">
+                    With photo, lamination, binding, and stationery support in
+                    one place, your documents can be prepared from start to
+                    finish.
+                  </p>
+                </div>
+                <figure
+                  class="gallery-reveal gallery-from-right m-0 min-w-0 w-full overflow-hidden"
+                >
+                  <img
+                    src="https://placehold.co/900x600/e9f4ec/24543a?text=Document+Finishing"
+                    alt="Placeholder for a photo of document finishing equipment"
+                    class="block aspect-[3/2] h-auto max-w-full w-full border border-base-300 object-cover"
+                    loading="lazy"
+                  />
+                </figure>
+              </article>
+            </div>
+          </div>
+        </section>
+        <section
+          id="reviews"
+          class="noise-section border-t border-base-300 bg-base-200"
+        >
+          <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+            <div class="max-w-2xl">
+              <p
+                class="mb-4 text-sm font-bold uppercase tracking-[0.2em] text-primary"
+              >
+                Customer reviews
+              </p>
+
+              <h2 class="text-3xl font-black leading-tight sm:text-4xl">
+                Trusted by our local community.
+              </h2>
+
+              <p class="mt-5 text-lg leading-8 text-base-content/70">
+                See what customers say about their experience at Masi Online
+                Service Centre.
+              </p>
+            </div>
+
+            <div class="review-window mt-10">
+              <div class="review-track">
+                <div class="review-group">
+                  <article class="w-[min(86vw,360px)] shrink-0">
+                    <div class="border border-base-300 bg-base-100 p-6">
+                      <div
+                        class="rating rating-sm"
+                        aria-label="5 out of 5 stars"
+                      >
+                        <div
+                          class="mask mask-star bg-primary"
+                          aria-hidden="true"
+                        >
+                        </div>
+                        <div
+                          class="mask mask-star bg-primary"
+                          aria-hidden="true"
+                        >
+                        </div>
+                        <div
+                          class="mask mask-star bg-primary"
+                          aria-hidden="true"
+                        >
+                        </div>
+                        <div
+                          class="mask mask-star bg-primary"
+                          aria-hidden="true"
+                        >
+                        </div>
+                        <div
+                          class="mask mask-star bg-primary"
+                          aria-hidden="true"
+                        >
+                        </div>
+                      </div>
+
+                      <blockquote class="mt-5 leading-7 text-base-content/75">
+                        “The staff explained the process clearly and helped me
+                        complete my certificate application quickly.”
+                      </blockquote>
+
+                      <footer class="mt-6 border-t border-base-300 pt-4">
+                        <p class="font-bold">Kavitha R.</p>
+                        <p class="text-sm text-base-content/60">
+                          Local customer
+                        </p>
+                      </footer>
+                    </div>
+                  </article>
+
+                  <article class="w-[min(86vw,360px)] shrink-0">
+                    <div class="border border-base-300 bg-base-100 p-6">
+                      <div
+                        class="rating rating-sm"
+                        aria-label="5 out of 5 stars"
+                      >
+                        <div
+                          class="mask mask-star bg-primary"
+                          aria-hidden="true"
+                        >
+                        </div>
+                        <div
+                          class="mask mask-star bg-primary"
+                          aria-hidden="true"
+                        >
+                        </div>
+                        <div
+                          class="mask mask-star bg-primary"
+                          aria-hidden="true"
+                        >
+                        </div>
+                        <div
+                          class="mask mask-star bg-primary"
+                          aria-hidden="true"
+                        >
+                        </div>
+                        <div
+                          class="mask mask-star bg-primary"
+                          aria-hidden="true"
+                        >
+                        </div>
+                      </div>
+
+                      <blockquote class="mt-5 leading-7 text-base-content/75">
+                        “A very useful centre for printing, passport photos, and
+                        online services. Everything was completed in one visit.”
+                      </blockquote>
+
+                      <footer class="mt-6 border-t border-base-300 pt-4">
+                        <p class="font-bold">Suresh M.</p>
+                        <p class="text-sm text-base-content/60">
+                          Local customer
+                        </p>
+                      </footer>
+                    </div>
+                  </article>
+
+                  <article class="w-[min(86vw,360px)] shrink-0">
+                    <div class="border border-base-300 bg-base-100 p-6">
+                      <div
+                        class="rating rating-sm"
+                        aria-label="5 out of 5 stars"
+                      >
+                        <div
+                          class="mask mask-star bg-primary"
+                          aria-hidden="true"
+                        >
+                        </div>
+                        <div
+                          class="mask mask-star bg-primary"
+                          aria-hidden="true"
+                        >
+                        </div>
+                        <div
+                          class="mask mask-star bg-primary"
+                          aria-hidden="true"
+                        >
+                        </div>
+                        <div
+                          class="mask mask-star bg-primary"
+                          aria-hidden="true"
+                        >
+                        </div>
+                        <div
+                          class="mask mask-star bg-primary"
+                          aria-hidden="true"
+                        >
+                        </div>
+                      </div>
+
+                      <blockquote class="mt-5 leading-7 text-base-content/75">
+                        “Friendly service, fair pricing, and quick support. I
+                        recommend this centre to people nearby.”
+                      </blockquote>
+
+                      <footer class="mt-6 border-t border-base-300 pt-4">
+                        <p class="font-bold">Sarojini P.</p>
+                        <p class="text-sm text-base-content/60">
+                          Local customer
+                        </p>
+                      </footer>
+                    </div>
+                  </article>
+                </div>
+
+                <div class="review-group" aria-hidden="true">
+                  <article class="w-[min(86vw,360px)] shrink-0">
+                    <div class="border border-base-300 bg-base-100 p-6">
+                      <div
+                        class="rating rating-sm"
+                        aria-label="5 out of 5 stars"
+                      >
+                        <div class="mask mask-star bg-primary"></div>
+                        <div class="mask mask-star bg-primary"></div>
+                        <div class="mask mask-star bg-primary"></div>
+                        <div class="mask mask-star bg-primary"></div>
+                        <div class="mask mask-star bg-primary"></div>
+                      </div>
+
+                      <blockquote class="mt-5 leading-7 text-base-content/75">
+                        “The staff explained the process clearly and helped me
+                        complete my certificate application quickly.”
+                      </blockquote>
+
+                      <footer class="mt-6 border-t border-base-300 pt-4">
+                        <p class="font-bold">Kavitha R.</p>
+                        <p class="text-sm text-base-content/60">
+                          Local customer
+                        </p>
+                      </footer>
+                    </div>
+                  </article>
+
+                  <article class="w-[min(86vw,360px)] shrink-0">
+                    <div class="border border-base-300 bg-base-100 p-6">
+                      <div
+                        class="rating rating-sm"
+                        aria-label="5 out of 5 stars"
+                      >
+                        <div class="mask mask-star bg-primary"></div>
+                        <div class="mask mask-star bg-primary"></div>
+                        <div class="mask mask-star bg-primary"></div>
+                        <div class="mask mask-star bg-primary"></div>
+                        <div class="mask mask-star bg-primary"></div>
+                      </div>
+
+                      <blockquote class="mt-5 leading-7 text-base-content/75">
+                        “A very useful centre for printing, passport photos, and
+                        online services. Everything was completed in one visit.”
+                      </blockquote>
+
+                      <footer class="mt-6 border-t border-base-300 pt-4">
+                        <p class="font-bold">Suresh M.</p>
+                        <p class="text-sm text-base-content/60">
+                          Local customer
+                        </p>
+                      </footer>
+                    </div>
+                  </article>
+
+                  <article class="w-[min(86vw,360px)] shrink-0">
+                    <div class="border border-base-300 bg-base-100 p-6">
+                      <div
+                        class="rating rating-sm"
+                        aria-label="5 out of 5 stars"
+                      >
+                        <div class="mask mask-star bg-primary"></div>
+                        <div class="mask mask-star bg-primary"></div>
+                        <div class="mask mask-star bg-primary"></div>
+                        <div class="mask mask-star bg-primary"></div>
+                        <div class="mask mask-star bg-primary"></div>
+                      </div>
+
+                      <blockquote class="mt-5 leading-7 text-base-content/75">
+                        “Friendly service, fair pricing, and quick support. I
+                        recommend this centre to people nearby.”
+                      </blockquote>
+
+                      <footer class="mt-6 border-t border-base-300 pt-4">
+                        <p class="font-bold">Sarojini P.</p>
+                        <p class="text-sm text-base-content/60">
+                          Local customer
+                        </p>
+                      </footer>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="contact" class="border-t border-base-300 bg-base-100">
+          <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+            <div class="grid gap-12 lg:grid-cols-2 lg:items-start lg:gap-20">
+              <div>
+                <p
+                  class="mb-4 text-sm font-bold uppercase tracking-[0.2em] text-primary"
+                >
+                  Visit or contact us
+                </p>
+
+                <h2 class="text-3xl font-black leading-tight sm:text-4xl">
+                  Let’s get your work sorted.
+                </h2>
+
+                <p class="mt-5 max-w-xl text-lg leading-8 text-base-content/70">
+                  Call us before you visit, or stop by our centre for quick help
+                  with online services and document work.
+                </p>
+
+                <div class="mt-8 space-y-6">
+                  <div>
+                    <p
+                      class="text-sm font-bold uppercase tracking-wider text-base-content/50"
+                    >
+                      Address
+                    </p>
+                    <address class="mt-2 not-italic leading-7">
+                      Yercaud Main Rd, near Law College Bus Stop<br />
+                      Saraswathy Nagar, Salem, Tamil Nadu 636008
+                    </address>
+                  </div>
+
+                  <div>
+                    <p
+                      class="text-sm font-bold uppercase tracking-wider text-base-content/50"
+                    >
+                      Opening hours
+                    </p>
+                    <p class="mt-2 leading-7">
+                      Monday–Saturday: 9:00 AM – 8:00 PM<br />
+                      Sunday: 10:00 AM – 2:00 PM
+                    </p>
+                  </div>
+
+                  <div class="flex flex-col gap-3 sm:flex-row">
+                    <a href="tel:+919884081600" class="btn btn-primary">
+                      Call Now
+                    </a>
+
+                    <a
+                      href="https://wa.me/919884081600"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="btn btn-outline"
+                    >
+                      WhatsApp Us
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rounder-sm border border-base-300 bg-base-200 p-2">
+                <p class="px-3 py-3 text-sm font-bold">
+                  Find us near Law College Bus Stop
+                </p>
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1953.4335253797708!2d78.16784393419906!3d11.703827584465307!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babf10002a0b431%3A0xaee47974b248f08a!2sMasi%20Online%20Service%20Centre%20(e-sevai%20mayam)!5e0!3m2!1sen!2sin!4v1794035878163!5m2!1sen!2sin"
+                  class="rounded-sm w-full border border-base-300 bg-base-200 sm:h-96"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  title="Google Maps"></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+        <footer class="noise-section border-t border-base-300 bg-base-200">
+          <div
+            class="footer footer-vertical mx-auto max-w-7xl px-4 py-10 sm:px-6 md:footer-horizontal lg:px-8"
+          >
+            <aside>
+              <p class="text-lg font-bold text-primary">
+                Masi Online Service Centre
+              </p>
+
+              <p class="mt-2 max-w-xs text-sm leading-6 text-base-content/60">
+                Fast, reliable digital and document services.
+              </p>
+
+              <p class="mt-4 text-xs text-base-content/50">
+                © 2026 Masi Online Service Centre. All rights reserved.
+              </p>
+            </aside>
+
+            <nav>
+              <h6 class="footer-title">Quick links</h6>
+              <a href="#home" class="link link-hover">Home</a>
+              <a href="#about" class="link link-hover">About</a>
+              <a href="#services" class="link link-hover">Services</a>
+              <a href="#contact" class="link link-hover">Contact</a>
+            </nav>
+
+            <nav>
+              <h6 class="footer-title">Contact</h6>
+              <a href="tel:+919884081600" class="link link-hover">
+                +91 98840 81600
+              </a>
+              <a
+                href="https://wa.me/919884081600"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="link link-hover"
+              >
+                WhatsApp
+              </a>
+              <a
+                href="https://www.google.com/maps/place/Masi+Online+Service+Centre+(e-sevai+mayam)/@11.7037919,78.167369,17z/data=!3m1!4b1!4m6!3m5!1s0x3babf10002a0b431:0xaee47974b248f08a!8m2!3d11.7037919!4d78.1699439!16s%2Fg%2F11yj5cnf02?entry=ttu&g_ep=EgoyMDI2MTEwMy4wIKXMDSoASAFQAw%3D%3D"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="link link-hover"
+              >
+                Get directions
+              </a>
+            </nav>
+          </div>
+        </footer>
+      </section>
+    </section>
+
+    <script>
+      const scrambleTargets =
+        document.querySelectorAll<HTMLElement>("[data-scramble]");
+
+      scrambleTargets.forEach((target) => {
+        const finalText = target.dataset.scramble ?? target.textContent ?? "";
+        const characterPool =
+          target.dataset.scramblePool ??
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&?";
+        const reduceMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+
+        if (reduceMotion) {
+          target.textContent = finalText;
+        } else {
+          let frame = 0;
+          const totalFrames = Math.ceil(Array.from(finalText).length * 1.8);
+
+          const scramble = () => {
+            target.textContent = Array.from(finalText)
+              .map((character, index) => {
+                if (/\s|[()-]/u.test(character)) return character;
+                return index < frame
+                  ? character
+                  : characterPool[
+                      Math.floor(Math.random() * characterPool.length)
+                    ];
+              })
+              .join("");
+
+            frame += 1;
+            if (frame <= totalFrames) {
+              window.setTimeout(scramble, 45);
+            } else {
+              target.textContent = finalText;
+            }
+          };
+
+          scramble();
+        }
+      });
+
+      const galleryTargets =
+        document.querySelectorAll<HTMLElement>(".gallery-reveal");
+      const serviceCardTargets = document.querySelectorAll<HTMLElement>(
+        ".service-card-scroll",
+      );
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+
+      if (reduceMotion) {
+        galleryTargets.forEach((target) =>
+          target.style.setProperty("--gallery-progress", "1"),
+        );
+        serviceCardTargets.forEach((target) => {
+          target.style.setProperty("--service-progress", "1");
+          target.style.setProperty("--service-rotation", "0deg");
+        });
+      } else {
+        let framePending = false;
+
+        const updateGalleryProgress = () => {
+          const viewportHeight = window.innerHeight;
+          const start = viewportHeight * 0.92;
+          const end = viewportHeight * 0.5;
+
+          galleryTargets.forEach((target) => {
+            const progress = Math.max(
+              0,
+              Math.min(
+                1,
+                (start - target.getBoundingClientRect().top) / (start - end),
+              ),
+            );
+            target.style.setProperty("--gallery-progress", progress.toFixed(3));
+          });
+
+          serviceCardTargets.forEach((target) => {
+            const progress = Math.max(
+              0,
+              Math.min(
+                1,
+                (start - target.getBoundingClientRect().top) / (start - end),
+              ),
+            );
+            const direction = target.dataset.flipDirection === "right" ? 1 : -1;
+            const rotation = (direction * 75 * (1 - progress)).toFixed(2);
+
+            target.style.setProperty("--service-progress", progress.toFixed(3));
+            target.style.setProperty("--service-rotation", `${rotation}deg`);
+          });
+
+          framePending = false;
+        };
+
+        const requestGalleryUpdate = () => {
+          if (!framePending) {
+            framePending = true;
+            window.requestAnimationFrame(updateGalleryProgress);
+          }
+        };
+
+        window.addEventListener("scroll", requestGalleryUpdate, {
+          passive: true,
+        });
+        window.addEventListener("resize", requestGalleryUpdate);
+        updateGalleryProgress();
+      }
+    </script>
+  </body>
 </html>
