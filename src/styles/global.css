@@ -49,6 +49,21 @@
   --size-field: 0.25rem;
 }
 
+:root {
+  --color-blue: oklch(65% 0.14 230);
+  --color-blue-pastel: oklch(94% 0.045 230);
+  --color-purple: oklch(62% 0.14 290);
+  --color-purple-pastel: oklch(95% 0.045 290);
+  --color-yellow: oklch(78% 0.16 90);
+  --color-yellow-pastel: oklch(96% 0.06 90);
+  --color-coral: oklch(65% 0.17 25);
+  --color-coral-pastel: oklch(95% 0.045 25);
+  --color-pink: oklch(68% 0.15 350);
+  --color-pink-pastel: oklch(95% 0.045 350);
+  --color-teal: oklch(65% 0.13 190);
+  --color-teal-pastel: oklch(94% 0.045 190);
+}
+
 html {
   scroll-behavior: smooth;
 }
