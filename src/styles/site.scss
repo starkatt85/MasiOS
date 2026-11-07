@@ -1,0 +1,122 @@
+body {
+  font-family: "Metrophobic", sans-serif;
+  line-height: 1.4;
+  overflow-x: clip;
+
+  .tamil {
+    font-family: "Noto Sans Tamil", sans-serif;
+  }
+
+  .space-mono-regular {
+    font-family: "Space Mono", monospace;
+    font-weight: 400;
+  }
+
+  .space-mono-bold {
+    font-family: "Space Mono", monospace;
+    font-weight: 700;
+  }
+
+  .hero-background {
+    background-image:
+      linear-gradient(90deg, oklch(94% 0.025 145) 0%, oklch(94% 0.025 145 / 0.96) 36%, oklch(94% 0.025 145 / 0.72) 58%, oklch(94% 0.025 145 / 0.18) 82%, transparent 100%),
+      url("/images/mapshot.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+
+  .scramble-text {
+    display: inline-block;
+  }
+
+  .eyebrow {
+    margin-bottom: 0.75rem;
+    color: var(--color-primary);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .noise-section {
+    background-image: none, var(--fx-noise);
+    background-size: auto, calc(var(--noise) * 33%);
+  }
+
+  .gallery-section {
+    background-color: var(--color-base-100);
+    background-image: linear-gradient(to bottom, var(--color-base-200) 0%, color-mix(in oklch, var(--color-base-200) 55%, var(--color-base-100)) 48%, var(--color-base-100) 100%), var(--fx-noise);
+    background-size: auto, calc(var(--noise) * 33%);
+  }
+
+  .gallery-reveal {
+    --gallery-progress: 0;
+    opacity: var(--gallery-progress);
+    transform: translateX(calc(var(--gallery-offset) * (1 - var(--gallery-progress))));
+    will-change: opacity, transform;
+  }
+
+  .gallery-from-left { --gallery-offset: -4rem; }
+  .gallery-from-right { --gallery-offset: 4rem; }
+
+  .service-card-scroll {
+    --service-progress: 0;
+    --service-rotation: 0deg;
+    opacity: var(--service-progress);
+    transform: perspective(900px) rotateY(var(--service-rotation));
+    transform-style: preserve-3d;
+    will-change: opacity, transform;
+  }
+
+  .review-window {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .review-track {
+    display: flex;
+    width: max-content;
+    animation: review-scroll 28s linear infinite;
+    &:hover { animation-play-state: paused; }
+  }
+
+  .review-group {
+    display: flex;
+    gap: 1rem;
+    padding-right: 1rem;
+  }
+
+  @keyframes review-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 767px) {
+    .hero-background {
+      background-image: none;
+      background-color: var(--color-base-200);
+      background-attachment: scroll;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .document-intro {
+      position: sticky;
+      top: 7rem;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-background { background-attachment: scroll; }
+    .review-track { animation: none; }
+    .gallery-reveal,
+    .service-card-scroll {
+      opacity: 1;
+      transform: none;
+      will-change: auto;
+    }
+  }
+}

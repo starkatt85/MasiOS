@@ -1,0 +1,33 @@
+---
+const documents = [
+  ["Print-outs & Xerox", "Clear black-and-white print-outs and xerox up to A3 size, coloured xerox and print-out up to A4 size.", true],
+  ["Lamination", "Protect certificates, cards, and important documents."],
+  ["Spiral Binding", "Neat and durable binding for projects, notes, and reports."],
+  ["Office Stationery", "Pens, files, paper, envelopes, and everyday office supplies."],
+  ["Job Typing (Tamil and English)", "Typing services for documents, letters, and forms in Tamil and English (we will need sufficient time to finish)."],
+  ["Scanning", "High-quality scanning for documents, photos, and images."],
+  ["Payment related Services", "Money transfers, bill payments, exam fees payments, vehicle fine payments."],
+  ["Aadhar based Cash Withdrawal", "Withdraw cash from your bank account using your Aadhar card and registered mobile number. All banks are supported."],
+];
+---
+
+<section id="products" class="border-t border-base-300 bg-base-100">
+  <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+    <div class="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+      <div class="document-intro">
+        <p class="mb-4 text-sm font-bold uppercase tracking-[0.2em] text-primary">Document services</p>
+        <h2 class="text-3xl font-black leading-tight sm:text-4xl">More than online services.</h2>
+        <p class="mt-5 text-lg leading-8 text-base-content/70">Get your documents printed, prepared, protected, and ready to use.</p>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2">
+        {documents.map(([title, description, discounted]) => (
+          <article class="border border-base-300 bg-base-100 p-5">
+            <h3 class="font-bold">{title}</h3>
+            {discounted && <p class="text-sm leading-6 text-error/80">(Discounted price for student study materials)</p>}
+            <p class="mt-2 text-sm leading-6 text-base-content/60">{description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

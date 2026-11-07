@@ -1,0 +1,34 @@
+---
+const reviews = [
+  ["The staff explained the process clearly and helped me complete my certificate application quickly.", "Kavitha R."],
+  ["A very useful centre for printing, passport photos, and online services. Everything was completed in one visit.", "Suresh M."],
+  ["Friendly service, fair pricing, and quick support. I recommend this centre to people nearby.", "Sarojini P."],
+];
+---
+
+<section id="reviews" class="noise-section border-t border-base-300 bg-base-200">
+  <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+    <div class="max-w-2xl">
+      <p class="mb-4 text-sm font-bold uppercase tracking-[0.2em] text-primary">Customer reviews</p>
+      <h2 class="text-3xl font-black leading-tight sm:text-4xl">Trusted by our local community.</h2>
+      <p class="mt-5 text-lg leading-8 text-base-content/70">See what customers say about their experience at Masi Online Service Centre.</p>
+    </div>
+    <div class="review-window mt-10">
+      <div class="review-track">
+        {[...reviews, ...reviews].map(([quote, name], index) => (
+          <div class="review-group">
+            <article class="w-[min(86vw,360px)] shrink-0">
+              <div class="border border-base-300 bg-base-100 p-6">
+                <div class="rating rating-sm" aria-label="5 out of 5 stars">
+                  {[1, 2, 3, 4, 5].map((star) => <div class="mask mask-star bg-primary" aria-hidden="true"></div>)}
+                </div>
+                <blockquote class="mt-5 leading-7 text-base-content/75">“{quote}”</blockquote>
+                <footer class="mt-6 border-t border-base-300 pt-4"><p class="font-bold">{name}</p><p class="text-sm text-base-content/60">Local customer</p></footer>
+              </div>
+            </article>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
